@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory App</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="light">
+    <div class="app-layout">
+
+        <button id="btn-export-all" class="btn-icon global-export-btn" title="Fazer Backup de Tudo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h11.175q.4 0 .763.15t.637.425l2.85 2.85q.275.275.425.638t.15.762V19q0 .825-.587 1.413T19 21zm9.125-3.875Q15 16.25 15 15t-.875-2.125T12 12t-2.125.875T9 15t.875 2.125T12 18t2.125-.875M7 10h7q.425 0 .713-.288T15 9V7q0-.425-.288-.712T14 6H7q-.425 0-.712.288T6 7v2q0 .425.288.713T7 10"/></svg>
+        </button>
+        
+        <aside class="sidebar">
+            <div class="brand">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 24 24"><path fill="#10b981" d="M19 13v-3h-1V9h-1V6h-1V4h-1V3h-1V2h-1V1h-2v1h1v2h-1v2h-1v1H9v1H8v1H7v1H6v3h1v2H6v-1H5v-2H4v2H3v3h1v2h1v1h1v1h1v1h1v1h8v-1h1v-1h1v-1h1v-2h1v-5zm-2 7h-1v1h-2v1h-4v-1H9v-4h1v-1h1v-1h1v-1h1v-3h-1v-1h-1V9h1v1h2v2h1v5h-1v2h1v-1h1v-1h1z"/></svg>
+                <span class="hide-mobile">JONI</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <button class="nav-item active" data-target="view-dashboard" title="Coleções">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9.25 3.5A1.75 1.75 0 0 0 7.5 5.25v1a.75.75 0 0 1-1.5 0v-1A3.25 3.25 0 0 1 9.25 2h1a.75.75 0 0 1 0 1.5zM12 2.75a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75m.75 13.75a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5zm-6-8.5a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-1.5 0v-2.5A.75.75 0 0 1 6.75 8M22 8.75a.75.75 0 0 0-1.5 0v2.5a.75.75 0 0 0 1.5 0zm-3.25 7.75a1.75 1.75 0 0 0 1.75-1.75v-1a.75.75 0 0 1 1.5 0v1A3.25 3.25 0 0 1 18.75 18h-1a.75.75 0 0 1 0-1.5zM20.5 5.25a1.75 1.75 0 0 0-1.75-1.75h-1a.75.75 0 0 1 0-1.5h1A3.25 3.25 0 0 1 22 5.25v1a.75.75 0 0 1-1.5 0zM9.25 16.5a1.75 1.75 0 0 1-1.75-1.75v-1a.75.75 0 0 0-1.5 0v1A3.25 3.25 0 0 0 9.25 18h1a.75.75 0 0 0 0-1.5zM2 9.25a3.25 3.25 0 0 1 3-3.24V15a4 4 0 0 0 4 4h8.99a3.25 3.25 0 0 1-3.24 3h-7A5.75 5.75 0 0 1 2 16.25z"/></svg>
+                    <span class="hide-mobile">Coleções</span>
+                </button>
+                <button class="nav-item" data-target="view-performance" title="Performance">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm10.939 2.655c-.353-.883-1.618-.833-1.902.074l-1.752 5.606l-.388-.777A1.01 1.01 0 0 0 8.994 12H7a1 1 0 1 0 0 2h1.382l1.212 2.425c.407.813 1.597.717 1.868-.15l1.654-5.293l.953 2.383c.153.384.525.635.938.635H17a1 1 0 1 0 0-2h-1.323z"/></g></svg>
+                    <span class="hide-mobile">Performance</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <label for="file-import" class="nav-item action-btn" title="Importar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m12 2l.117.007a1 1 0 0 1 .876.876L13 3v4l.005.15a2 2 0 0 0 1.838 1.844L15 9h4l.117.007a1 1 0 0 1 .876.876L20 10v9a3 3 0 0 1-2.824 2.995L17 22H7a3 3 0 0 1-2.995-2.824L4 19V5a3 3 0 0 1 2.824-2.995L7 2zm0 8a1 1 0 0 0-1 1v3.585l-.793-.792a1 1 0 0 0-1.32-.083l-.094.083a1 1 0 0 0 0 1.414l2.5 2.5l.044.042l.068.055l.11.071l.114.054l.105.035l.15.03L12 18l.117-.007l.117-.02l.108-.033l.081-.034l.098-.052l.092-.064l.094-.083l2.5-2.5a1 1 0 0 0 0-1.414l-.094-.083a1 1 0 0 0-1.32.083l-.793.791V11a1 1 0 0 0-.883-.993zm2.999-7.001L19 7h-4z"/></svg>
+                    <span class="hide-mobile">CARREGAR</span>
+                </label>
+                <input type="file" id="file-import" accept=".json" class="hidden">
+                
+                <button id="btn-theme-toggle" class="nav-item action-btn" title="Mudar Tema">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M14.01 2.2h-.06c-.63-.13-1.29-.2-1.96-.2C6.49 2 2 6.49 2 12s4.49 10 10 10c.66 0 1.32-.07 1.95-.19h.07c4.42-.91 7.69-4.69 7.96-9.14c.02-.22.03-.43.03-.66s0-.44-.02-.61c-.27-4.5-3.55-8.28-7.97-9.19Zm5.97 10.29c-.21 3.52-2.73 6.47-6.14 7.28C11.63 18.9 10 15.63 10 12s1.64-6.9 3.84-7.77c3.41.81 5.93 3.77 6.14 7.33c.02.14.01.29.01.44s0 .3-.02.49Z"/></svg>
+                    <span class="hide-mobile">TEMA</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div id="progress-container" class="progress-bar-wrapper hidden">
+                <div id="progress-fill" class="progress-bar-fill"></div>
+            </div>
+
+            <div class="view-container">
+                
+                <section id="view-dashboard" class="view-section active">
+                    <header class="view-header">
+                        <h1>Coleções</h1>
+                        <button id="btn-new-collection" class="btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"><path d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12m10-8a8 8 0 1 0 0 16a8 8 0 0 0 0-16"/><path d="M13 7a1 1 0 1 0-2 0v4H7a1 1 0 1 0 0 2h4v4a1 1 0 1 0 2 0v-4h4a1 1 0 1 0 0-2h-4z"/></g></svg>
+                            CRIAR COLEÇÃO
+                        </button>
+                    </header>
+                    <div id="collections-grid" class="grid-layout"></div>
+                </section>
+
+                <section id="view-performance" class="view-section hidden">
+                    <header class="view-header">
+                        <h1>Sua Performance</h1>
+                    </header>
+                    <div class="panel">
+                        <ul id="performance-list" class="performance-list"></ul>
+                    </div>
+                </section>
+
+                <section id="view-manager" class="view-section hidden">
+                    <header class="view-header">
+                        <div class="header-titles">
+                            <button class="btn-icon btn-back" title="Voltar">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                            </button>
+                            <h1 id="current-collection-title">Coleção</h1>
+                        </div>
+                        <div class="study-setup-actions">
+                            <div class="mode-switch">
+                                <button id="mode-seq" class="switch-btn active" title="Em Ordem">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5h10v2H12m0 12v-2h10v2m-10-8h10v2H12m-3 0v2l-3.33 4H9v2H3v-2l3.33-4H3v-2M7 3H5c-1.1 0-2 .9-2 2v6h2V9h2v2h2V5a2 2 0 0 0-2-2m0 4H5V5h2Z"/></svg>    
+                                </button>
+                                <button id="mode-rand" class="switch-btn" title="Aleatório">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M4 17a1 1 0 0 1 0-2h2l3-3l-3-3H4a1.001 1.001 0 0 1 0-2h3l4 4l4-4h2V5l4 3.001L17 11V9h-1l-3 3l3 3h1v-2l4 3l-4 3v-2h-2l-4-4l-4 4z"/></svg>    
+                                </button>
+                            </div>
+                            <button id="btn-start-study" class="btn-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.906 4.537A.6.6 0 0 0 6 5.053v13.894a.6.6 0 0 0 .906.516l11.723-6.947a.6.6 0 0 0 0-1.032z"/></svg>
+                                JOGAR
+                            </button>
+                        </div>
+                    </header>
+
+                    <div class="manager-layout">
+                        <div class="card-creator-box panel">
+                            <input type="text" id="input-front" class="input-clean title-input" placeholder="Frente do card...">
+                            <hr class="divider">
+                            <textarea id="input-back" class="input-clean body-input" placeholder="Verso do card..."></textarea>
+                            <div class="box-footer">
+                                <button id="btn-add-card" class="btn-secondary">Adicionar Card</button>
+                            </div>
+                        </div>
+
+                        <div class="cards-list-box panel">
+                            <div class="list-header">
+                                <h3>Itens na Coleção</h3>
+                                <span class="badge" id="card-count">0</span>
+                            </div>
+                            <ul id="cards-list" class="item-list sortable-list"></ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="view-study" class="view-section hidden">
+                    <div class="study-container">
+                        <div class="flashcard panel" id="active-card">
+                            <h2 id="study-front" class="card-front-text"></h2>
+                            <hr id="study-divider" class="divider hidden">
+                            <p id="study-back" class="card-back-text hidden"></p>
+                        </div>
+                        
+                        <div class="study-actions">
+                            <button id="btn-reveal" class="btn-primary full-width">Mostrar Resposta</button>
+                            <div id="judgement-buttons" class="judgement-grid hidden">
+                                <button id="btn-wrong" class="btn-danger">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20.48 3.512a11.97 11.97 0 0 0-8.486-3.514C5.366-.002-.007 5.371-.007 11.999c0 3.314 1.344 6.315 3.516 8.487A11.97 11.97 0 0 0 11.995 24c6.628 0 12.001-5.373 12.001-12.001c0-3.314-1.344-6.315-3.516-8.487m-1.542 15.427a9.8 9.8 0 0 1-6.943 2.876c-5.423 0-9.819-4.396-9.819-9.819a9.8 9.8 0 0 1 2.876-6.943a9.8 9.8 0 0 1 6.942-2.876c5.422 0 9.818 4.396 9.818 9.818a9.8 9.8 0 0 1-2.876 6.942z"/><path fill="currentColor" d="m13.537 12l3.855-3.855a1.091 1.091 0 0 0-1.542-1.541l.001-.001l-3.855 3.855l-3.855-3.855A1.091 1.091 0 0 0 6.6 8.145l-.001-.001l3.855 3.855l-3.855 3.855a1.091 1.091 0 1 0 1.541 1.542l.001-.001l3.855-3.855l3.855 3.855a1.091 1.091 0 1 0 1.542-1.541l-.001-.001z"/></svg>
+                                    NÃO SEI
+                                </button>
+                                <button id="btn-correct" class="btn-success">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m9 20.42l-6.21-6.21l2.83-2.83L9 14.77l9.88-9.89l2.83 2.83z"/></svg>
+                                    LEMBREI!
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="view-results" class="view-section hidden">
+                    <div class="results-header">
+                        <h2>Sessão Finalizada</h2>
+                        <h3 id="score-text" class="score-display">0% de Acerto</h3>
+                        <button class="btn-primary mt-4 btn-back">Concluir</button>
+                    </div>
+                    <div class="results-grid">
+                        <div class="result-panel success-panel">
+                            <h3 class="panel-title-green">Você acertou</h3>
+                            <ul id="list-correct" class="item-list explicit-correct-list"></ul>
+                        </div>
+                        <div class="result-panel error-panel">
+                            <h3 class="panel-title-red">Para Revisar</h3>
+                            <ul id="list-wrong" class="item-list explicit-wrong-list"></ul>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <div id="modal-create" class="modal-overlay hidden">
+        <div class="modal-content panel">
+            <div class="modal-header">
+                <h2>Nova Coleção</h2>
+                <button class="btn-icon close-modal" title="Fechar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="input-collection-name" class="input-clean modal-input" placeholder="Digite o nome da coleção...">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary close-modal">Cancelar</button>
+                <button id="btn-confirm-create" class="btn-primary">Criar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-delete" class="modal-overlay hidden">
+        <div class="modal-content panel">
+            <div class="modal-header">
+                <h2>Excluir Coleção</h2>
+                <button class="btn-icon close-modal" title="Fechar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-text">Tem certeza que deseja excluir? Todos os cards serão perdidos para sempre.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary close-modal">Cancelar</button>
+                <button id="btn-confirm-delete" class="btn-danger">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-edit-card" class="modal-overlay hidden">
+        <div class="modal-content panel">
+            <div class="modal-header">
+                <h2>Editar Card</h2>
+                <button class="btn-icon close-modal" title="Fechar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body" style="display: flex; flex-direction: column; gap: 16px;">
+                <input type="text" id="edit-input-front" class="input-clean modal-input" placeholder="Frente do card...">
+                <textarea id="edit-input-back" class="input-clean modal-input" placeholder="Verso do card..." style="min-height: 120px; resize: none;"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary close-modal">Cancelar</button>
+                <button id="btn-confirm-edit-card" class="btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-edit-collection" class="modal-overlay hidden">
+        <div class="modal-content panel">
+            <div class="modal-header">
+                <h2>Renomear Coleção</h2>
+                <button class="btn-icon close-modal" title="Fechar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="input-edit-collection-name" class="input-clean modal-input" placeholder="Novo nome da coleção...">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-secondary close-modal">Cancelar</button>
+                <button id="btn-confirm-edit-collection" class="btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
