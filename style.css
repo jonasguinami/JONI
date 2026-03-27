@@ -36,6 +36,7 @@ body[data-theme="dark"] {
     --danger-border: rgba(239, 68, 68, 0.3);
 }
 
+/* --- RESET & TIPOGRAFIA GLOBAL --- */
 * { 
     margin: 0; 
     padding: 0; 
@@ -48,7 +49,13 @@ body {
     color: var(--text-main); 
     height: 100vh; 
     overflow: hidden; 
+    font-size: 16px;
 }
+
+h1 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+p { font-size: 0.95rem; line-height: 1.5; }
 
 .app-layout { 
     display: flex; 
@@ -72,11 +79,16 @@ body {
     align-items: center; 
     justify-content: flex-start;
     gap: 12px; 
-    font-size: 1.1rem; 
+    font-size: 1.2rem; 
     font-weight: 700; 
     color: var(--text-main); 
     margin-bottom: 40px; 
     padding: 0 12px; 
+}
+
+/* Esconde a logo do topo no PC, pois ela já tem seu lugar na barra lateral */
+.mobile-top-logo {
+    display: none !important;
 }
 
 .nav-menu { 
@@ -177,7 +189,6 @@ body {
     width: 100%; 
 }
 
-/* O Segredo do botão de voltar não vazar o tamanho pro botão de Concluir! */
 .header-titles .btn-back {
     flex-shrink: 0 !important;
     width: 40px; 
@@ -185,9 +196,6 @@ body {
 }
 
 .header-titles h1 { 
-    font-size: 1.75rem; 
-    font-weight: 700; 
-    letter-spacing: -0.02em; 
     white-space: normal;
     word-break: break-word;
     max-width: calc(100% - 56px); 
@@ -248,6 +256,7 @@ body {
     outline: none; 
     padding: 24px 32px; 
     color: var(--text-main); 
+    font-family: inherit;
 }
 
 .title-input { 
@@ -283,6 +292,7 @@ button {
     cursor: pointer; 
     border-radius: var(--radius-sm); 
     font-weight: 600; 
+    font-size: 0.95rem;
     transition: 0.2s; 
     display: inline-flex; 
     align-items: center; 
@@ -295,7 +305,6 @@ button {
     color: #fff; 
     border: none; 
     padding: 12px 24px; 
-    font-size: 0.95rem; 
 }
 
 .btn-primary:hover { 
@@ -407,8 +416,6 @@ button {
 
 .collection-card-header h3 {
     word-break: break-word; 
-    font-size: 1.2rem; 
-    font-weight: 600; 
 }
 
 .btn-kebab {
@@ -432,7 +439,6 @@ button {
 
 .collection-card p { 
     color: var(--text-muted); 
-    font-size: 0.95rem; 
     flex: 1; 
 }
 
@@ -458,19 +464,15 @@ button {
     margin-bottom: 20px; 
 }
 
-.list-header h3 { 
-    font-size: 1.05rem; 
-    font-weight: 600; 
-    color: var(--text-main); 
-}
-
 .badge { 
     background: var(--bg-app); 
     padding: 4px 12px; 
     border-radius: 20px; 
-    font-size: 0.85rem; 
+    font-size: 0.75rem; 
     font-weight: 700; 
     color: var(--accent); 
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -493,27 +495,35 @@ button {
     color: var(--accent);
 }
 
-/* --- LISTAS OTIMIZADAS (TRAVAR O SCROLL) --- */
+/* --- LISTAS OTIMIZADAS --- */
 .item-list { 
     list-style: none; 
     display: flex; 
     flex-direction: column; 
-    gap: 8px; /* Reduzido de 12px para otimizar espaço */
+    gap: 8px; 
     height: 350px; 
     overflow-y: auto; 
     padding-right: 8px; 
 }
 
 .item-list li { 
-    padding: 12px 16px; /* Ajuste fino de padding para não ocupar tela à toa */
+    padding: 12px 16px; 
     background: var(--bg-panel); 
     border: 1px solid var(--border); 
     border-radius: var(--radius-md); 
     font-size: 0.95rem; 
+    font-weight: 500;
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
     gap: 16px; 
+    
+    /* AS MÁGICAS PARA O DRAG AND DROP NO MOBILE: */
+    -webkit-user-select: none; /* Chrome, Safari, Opera */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Padrão moderno */
+    -webkit-touch-callout: none; /* Tira o menu nativo de copiar/colar do iOS ao segurar */
 }
 
 .drag-handle { 
@@ -523,6 +533,9 @@ button {
     align-items: center; 
     justify-content: center;
     padding: 4px; 
+    
+    /* Garante que o touch pegue direto no botão de arrastar */
+    touch-action: none; 
 }
 
 .drag-handle:active { 
@@ -535,7 +548,7 @@ button {
     border: 2px dashed var(--accent); 
 }
 
-/* --- PERFORMANCE LIST (SWIPE iOS) --- */
+/* --- PERFORMANCE LIST --- */
 .performance-list { 
     list-style: none; 
     display: flex; 
@@ -598,9 +611,9 @@ button {
 }
 
 .perf-score { 
-    font-size: 1.25rem; 
+    font-size: 1rem; 
     font-weight: 700; 
-    padding: 8px 16px; 
+    padding: 6px 14px; 
     border-radius: var(--radius-sm); 
     display: inline-flex;
     align-items: center;
@@ -642,10 +655,12 @@ button {
     font-size: 1.8rem; 
     font-weight: 700; 
     color: var(--text-main); 
+    letter-spacing: -0.02em;
 }
 
 .card-back-text { 
     font-size: 1.25rem; 
+    font-weight: 500;
     color: var(--text-muted); 
     margin-top: 32px; 
 }
@@ -666,10 +681,11 @@ button {
 }
 
 .score-display { 
-    font-size: 2rem; 
+    font-size: 2.5rem; 
     color: var(--text-main); 
     margin-top: 8px; 
-    font-weight: 700; 
+    font-weight: 800; 
+    letter-spacing: -0.03em;
 }
 
 .results-grid { 
@@ -685,31 +701,21 @@ button {
     background: var(--bg-panel); 
 }
 
-/* Modificador pra lista de resultados aguentar dezenas de itens sem ficar gigante */
 .result-panel .item-list {
     height: auto;
     max-height: 280px; 
     gap: 6px; 
 }
 
-.panel-title-green { 
-    color: var(--accent); 
-    font-size: 1.1rem; 
-    margin-bottom: 16px; 
-}
-
-.panel-title-red { 
-    color: var(--danger); 
-    font-size: 1.1rem; 
-    margin-bottom: 16px; 
-}
+.panel-title-green { color: var(--accent); margin-bottom: 16px; }
+.panel-title-red { color: var(--danger); margin-bottom: 16px; }
 
 .explicit-correct-list li { 
     background: var(--success-bg); 
     border-color: var(--success-border); 
     color: var(--accent-hover); 
     font-weight: 600;
-    padding: 10px 14px; /* Espaçamento menor e cirúrgico */
+    padding: 10px 14px; 
     font-size: 0.9rem;
 }
 
@@ -718,11 +724,10 @@ button {
     border-color: var(--danger-border); 
     color: var(--danger-hover); 
     font-weight: 600; 
-    padding: 10px 14px; /* Espaçamento menor e cirúrgico */
+    padding: 10px 14px; 
     font-size: 0.9rem;
 }
 
-/* Ajuste fino do Botão Concluir para ele ficar dominante e respeitoso */
 .results-header .btn-primary {
     min-width: 220px;
     font-size: 1.05rem;
@@ -764,9 +769,8 @@ button {
     margin: 16px;
 }
 
-/* --- TELA VAZIA (EMPTY STATE) --- */
 .empty-state {
-    grid-column: 1 / -1; /* Força o aviso a ignorar os "quadradinhos" do grid e ocupar tudo */
+    grid-column: 1 / -1; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -777,14 +781,8 @@ button {
     color: var(--text-muted);
 }
 
-.empty-state p {
-    font-size: 1.1rem;
-    line-height: 1.5;
-}
-
-.empty-state strong {
-    color: var(--text-main);
-}
+.empty-state p { font-size: 1.1rem; }
+.empty-state strong { color: var(--text-main); font-weight: 600; }
 
 @keyframes modalPop {
     from { transform: scale(0.95); opacity: 0; }
@@ -799,27 +797,15 @@ button {
     border-bottom: 1px solid var(--border);
 }
 
-.modal-header h2 { 
-    font-size: 1.25rem; 
-    font-weight: 700; 
-    color: var(--text-main); 
-}
-
-.modal-body { 
-    padding: 24px; 
-}
-
-.modal-text { 
-    color: var(--text-muted); 
-    line-height: 1.6; 
-    font-size: 0.95rem; 
-}
+.modal-body { padding: 24px; }
+.modal-text { color: var(--text-muted); font-size: 0.95rem; }
 
 .modal-input {
     border: 1px solid var(--border);
     border-radius: var(--radius-sm);
     padding: 16px;
     font-size: 1rem;
+    font-weight: 500;
     width: 100%;
     background: var(--bg-app);
     color: var(--text-main);
@@ -840,18 +826,33 @@ button {
     border-top: 1px solid var(--border);
 }
 
-/* --- RESPONSIVIDADE (MOBILE OPTIMIZATION) --- */
+/* --- STATUS DOS CARDS NA LISTA (JOGO PAUSADO) --- */
+.item-list li.status-correct {
+    border-left: 4px solid var(--accent);
+    background: var(--success-bg);
+}
+
+.item-list li.status-wrong {
+    border-left: 4px solid var(--danger);
+    background: var(--danger-bg);
+}
+
+.study-header {
+    width: 100%;
+    max-width: 680px; /* Crava exatamente na mesma largura limite do Flashcard */
+    margin: 0 auto 24px auto; /* Centraliza na tela e empurra o card pra baixo */
+    padding: 0; /* Alinha os botões perfeitamente com a borda imaginária do card */
+}
+
+/* --- RESPONSIVIDADE --- */
 @media (max-width: 900px) { 
     .manager-layout, .results-grid { 
         grid-template-columns: 1fr; 
     } 
 }
 
-/* TUDO ABAIXO DAQUI É EXCLUSIVO PRO CELULAR */
 @media (max-width: 768px) {
-    .app-layout { 
-        flex-direction: column-reverse; 
-    }
+    .app-layout { flex-direction: column-reverse; }
     
     .sidebar { 
         width: 100%; 
@@ -865,8 +866,14 @@ button {
         z-index: 100;
     }
     
-    .brand, .hide-mobile { 
-        display: none; 
+    .brand { display: none; }
+    .hide-mobile { display: none; }
+    
+    /* Mostra a logo acima do "Coleções" e alinha perfeitamente */
+    .mobile-top-logo {
+        display: flex !important;
+        margin-bottom: 24px; 
+        padding: 0; 
     }
     
     .nav-menu, .sidebar-footer { 
@@ -879,68 +886,32 @@ button {
         align-items: center;
     }
     
-    .nav-item { 
-        padding: 12px; 
-        justify-content: center; 
-        flex: 1; 
-    }
+    .nav-item { padding: 12px; justify-content: center; flex: 1; }
     
-    .global-export-btn {
-        top: 16px;
-        right: 16px;
-        width: 44px;
-        height: 44px;
-    }
+    .global-export-btn { top: 16px; right: 16px; width: 44px; height: 44px; }
+    .item-list { height: 250px; }
+    #view-study:not(.hidden) { min-height: calc(100vh - 120px); }
+    .view-container { padding: 40px 16px 100px 16px; }
     
-    .item-list {
-        height: 250px; 
-    }
+    /* Responsivo Textos */
+    h1 { font-size: 1.5rem; }
+    .card-front-text { font-size: 1.5rem; }
     
-    #view-study:not(.hidden) {
-        min-height: calc(100vh - 120px);
-    }
-
-    .view-container { 
-        padding: 40px 16px 100px 16px; 
-    }
-    
-    .view-header { 
-        flex-direction: column; 
-        align-items: flex-start; 
-        gap: 20px;
-    }
-    
-    .study-setup-actions { 
-        width: 100%; 
-        justify-content: space-between; 
-    }
-    
-    .flashcard { 
-        min-height: 300px; 
-        padding: 32px 24px; 
-    }
-    
-    .card-front-text { 
-        font-size: 1.4rem; 
-    }
-    
-    .modal-actions {
-        flex-direction: column-reverse;
-    }
-    
-    .modal-actions button {
-        width: 100%;
-    }
-    
-    /* Faz o botão concluir ficar 100% da tela no celular pra facilitar o clique */
-    .results-header .btn-primary {
-        width: 100%;
-    }
+    .view-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .study-setup-actions { width: 100%; justify-content: space-between; }
+    .flashcard { min-height: 300px; padding: 32px 24px; }
+    .modal-actions { flex-direction: column-reverse; }
+    .modal-actions button { width: 100%; }
+    .results-header .btn-primary { width: 100%; }
 }
 
-.hidden { 
-    display: none !important; 
-}
+.study-header {
+        flex-direction: row !important;
+        align-items: center !important;
+        width: 100%;
+    }
+
+.hidden { display: none !important; }
 
 @keyframes fadeIn { 
     from { opacity: 0; transform: translateY(8px); } 

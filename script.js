@@ -69,6 +69,12 @@ document.querySelectorAll('.nav-item[data-target]').forEach(btn => {
 });
 
 // Botões Específicos de Voltar/Concluir
+document.getElementById('btn-back-study').addEventListener('click', () => {
+    clearInterval(studyTimerInterval); // Trava o tempo quando ele desiste e sai do jogo
+    showView('manager');
+    openManager(activeCollectionId); // Recarrega o manager para atualizar o botão para "Continuar"
+});
+
 document.querySelector('#view-manager .btn-back').addEventListener('click', () => {
     activeCollectionId = null;
     renderDashboard();
@@ -92,12 +98,13 @@ const editInputBack = document.getElementById('edit-input-back');
 let collectionToDeleteId = null;
 let cardToEditId = null;
 
-// Fechar todos os modais
+// --- LÓGICA UNIVERSAL DE MODAIS ---
+// Isso garante que QUALQUER botão com a classe "close-modal" 
+// ache automaticamente o modal que ele está dentro e feche ele.
 document.querySelectorAll('.close-modal').forEach(btn => {
-    btn.addEventListener('click', () => {
-        modalCreate.classList.add('hidden');
-        modalDelete.classList.add('hidden');
-        modalEditCard.classList.add('hidden');
+    btn.addEventListener('click', (e) => {
+        const modal = e.currentTarget.closest('.modal-overlay');
+        if (modal) modal.classList.add('hidden');
     });
 });
 
@@ -172,13 +179,6 @@ const modalEditCollection = document.getElementById('modal-edit-collection');
 const inputEditCollectionName = document.getElementById('input-edit-collection-name');
 let collectionToEditId = null;
 
-// Garante que o botão de fechar genérico também feche esse novo modal
-document.querySelectorAll('.close-modal').forEach(btn => {
-    btn.addEventListener('click', () => {
-        if(modalEditCollection) modalEditCollection.classList.add('hidden');
-    });
-});
-
 window.openEditCollection = function(id, e) {
     e.stopPropagation(); // Impede que o clique no botão abra a coleção inteira
     collectionToEditId = id;
@@ -210,7 +210,38 @@ document.getElementById('btn-confirm-edit-collection').addEventListener('click',
     }
 });
 
-// --- DASHBOARD ---
+// --- Modal de Detalhes da Performance ---
+const modalPerfDetails = document.getElementById('modal-performance-details');
+const modalListCorrect = document.getElementById('modal-list-correct');
+const modalListWrong = document.getElementById('modal-list-wrong');
+
+window.openPerformanceDetails = function(perfId) {
+    const perf = performanceHistory.find(p => p.id === perfId);
+    if (!perf) return;
+
+    modalListCorrect.innerHTML = '';
+    modalListWrong.innerHTML = '';
+
+    // Lógica para Acertos (Com blindagem para históricos antigos)
+    if (perf.correctCards && perf.correctCards.length > 0) {
+        perf.correctCards.forEach(c => modalListCorrect.innerHTML += `<li>${c.front}</li>`);
+    } else if (perf.correct > 0) {
+        modalListCorrect.innerHTML = `<li style="background: transparent; border: none; color: var(--text-muted); padding: 0;">Detalhes não salvos em versões anteriores.</li>`;
+    } else {
+        modalListCorrect.innerHTML = `<li style="background: transparent; border: none; color: var(--text-muted); padding: 0;">Nenhum acerto nesta sessão.</li>`;
+    }
+
+    // Lógica para Erros (Com blindagem para históricos antigos)
+    if (perf.wrongCards && perf.wrongCards.length > 0) {
+        perf.wrongCards.forEach(c => modalListWrong.innerHTML += `<li>${c.front}</li>`);
+    } else if ((perf.total - perf.correct) > 0 && !perf.wrongCards) {
+        modalListWrong.innerHTML = `<li style="background: transparent; border: none; color: var(--text-muted); padding: 0;">Detalhes não salvos em versões anteriores.</li>`;
+    } else {
+        modalListWrong.innerHTML = `<li style="background: transparent; border: none; color: var(--text-muted); padding: 0;">Nenhum erro. Perfeito!</li>`;
+    }
+
+    modalPerfDetails.classList.remove('hidden');
+};
 
 // --- DASHBOARD ---
 function renderDashboard() {
@@ -255,6 +286,119 @@ function renderDashboard() {
     });
 }
 
+/* =========================================
+   NOVAS FEATURES 10/10 (Timer, Busca e Reforço)
+   ========================================= */
+
+// 1. BARRA DE PESQUISA NAS COLEÇÕES
+document.getElementById('input-search-cards').addEventListener('input', (e) => {
+    const term = e.target.value.toLowerCase();
+    const listItems = document.querySelectorAll('#cards-list li');
+    listItems.forEach(li => {
+        const textElement = li.querySelector('.item-text');
+        if (textElement && textElement.textContent.toLowerCase().includes(term)) {
+            li.style.display = 'flex'; // Mostra
+        } else {
+            li.style.display = 'none'; // Esconde
+        }
+    });
+});
+
+// 2. LÓGICA DO TIMER DE ESTUDO
+let cardTimerSeconds = 0; // 0 = Desativado
+let studyTimerInterval = null;
+
+const timerSlider = document.getElementById('timer-slider');
+const timerDisplay = document.getElementById('timer-display');
+
+timerSlider.addEventListener('input', (e) => {
+    const val = parseInt(e.target.value);
+    cardTimerSeconds = val;
+    timerDisplay.textContent = val === 0 ? 'Desativado' : `${val} Segundos`;
+    if(val === 0) timerDisplay.style.color = 'var(--text-muted)';
+    else timerDisplay.style.color = 'var(--accent)';
+});
+
+document.getElementById('btn-timer-setup').addEventListener('click', () => {
+    document.getElementById('modal-timer').classList.remove('hidden');
+});
+
+function startCardTimer() {
+    clearInterval(studyTimerInterval);
+    const bar = document.getElementById('card-timer-bar');
+    
+    if (cardTimerSeconds === 0) {
+        bar.style.display = 'none';
+        return;
+    }
+    
+    // Reseta visualmente a barra
+    bar.style.display = 'block';
+    bar.style.width = '100%';
+    bar.style.transition = 'none';
+    
+    // Força o navegador a recalcular a tela (reflow) para a animação reiniciar
+    void bar.offsetWidth;
+    
+    // Aplica a animação decrescente
+    bar.style.transition = `width ${cardTimerSeconds}s linear`;
+    bar.style.width = '0%';
+    
+    let timeRemaining = cardTimerSeconds;
+    studyTimerInterval = setInterval(() => {
+        timeRemaining--;
+        if (timeRemaining <= 0) {
+            clearInterval(studyTimerInterval);
+            // O Tempo acabou! Força o botão de revelar se a resposta estiver escondida
+            if (document.getElementById('study-back').classList.contains('hidden')) {
+                document.getElementById('btn-reveal').click();
+            }
+        }
+    }, 1000);
+}
+
+// 3. COLEÇÃO DE REFORÇO
+let currentPerfIdForModal = null; // Armazena a sessão aberta no modal
+
+// Ajuste na sua função existente openPerformanceDetails (substitua a sua por esta parte ou apenas adicione essa lógica no final dela)
+const originalOpenPerformanceDetails = window.openPerformanceDetails;
+window.openPerformanceDetails = function(perfId) {
+    originalOpenPerformanceDetails(perfId); // Roda sua lógica de abrir o modal
+    currentPerfIdForModal = perfId;
+    
+    // Só mostra o botão de Reforço se tiver errou ao menos uma questão
+    const perf = performanceHistory.find(p => p.id === perfId);
+    const btnReforco = document.getElementById('btn-create-reinforcement');
+    if (perf && perf.wrongCards && perf.wrongCards.length > 0) {
+        btnReforco.style.display = 'inline-flex';
+    } else {
+        btnReforco.style.display = 'none';
+    }
+};
+
+document.getElementById('btn-create-reinforcement').addEventListener('click', () => {
+    if(!currentPerfIdForModal) return;
+    const perf = performanceHistory.find(p => p.id === currentPerfIdForModal);
+    if(!perf || !perf.wrongCards || perf.wrongCards.length === 0) return;
+
+    // Gera a Coleção de Reforço com as perguntas que ele errou
+    const novaColecao = {
+        id: generateId(),
+        name: `REFORÇO: ${perf.collection}`,
+        cards: JSON.parse(JSON.stringify(perf.wrongCards)) // Clone seguro
+    };
+
+    collections.unshift(novaColecao);
+    saveData();
+    renderDashboard();
+    
+    // Fecha o modal e avisa o cara!
+    document.getElementById('modal-performance-details').classList.add('hidden');
+    
+    // Pequeno truque para ir para o Dashboard ver a coleção criada
+    showView('dashboard');
+    document.querySelector('.nav-item[data-target="view-dashboard"]').click();
+});
 
 // --- GERENCIADOR DE CARDS ---
 function openManager(id) {
@@ -262,6 +406,18 @@ function openManager(id) {
     const col = collections.find(c => c.id === id);
     document.getElementById('current-collection-title').textContent = col.name;
     renderCardsList();
+    
+    // NOVO: Verifica se tem jogo salvo em cache para esta coleção
+    const savedSession = localStorage.getItem(`memoryApp_session_${id}`);
+    const btnStart = document.getElementById('btn-start-study');
+    const svgPlay = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.906 4.537A.6.6 0 0 0 6 5.053v13.894a.6.6 0 0 0 .906.516l11.723-6.947a.6.6 0 0 0 0-1.032z"/></svg>`;
+    
+    if (savedSession) {
+        btnStart.innerHTML = `${svgPlay} Continuar`;
+    } else {
+        btnStart.innerHTML = `${svgPlay} Jogar`;
+    }
+    
     showView('manager');
 }
 
@@ -286,6 +442,13 @@ function renderCardsList() {
     document.getElementById('card-count').textContent = col.cards.length;
     list.innerHTML = '';
     
+    // 1. PUXA O CACHE PRA VER SE TEM JOGO ROLANDO
+    const savedSessionStr = localStorage.getItem(`memoryApp_session_${activeCollectionId}`);
+    let savedSession = null;
+    if (savedSessionStr) {
+        savedSession = JSON.parse(savedSessionStr);
+    }
+
     const dragSvg = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></svg>`;
     const editSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;
     const trashSvg = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`;
@@ -294,9 +457,34 @@ function renderCardsList() {
         const li = document.createElement('li');
         li.draggable = true;
         li.dataset.index = index;
+        
+        // 2. LÓGICA DE CORES: Verifica se o card atual está na lista de acertos/erros do cache
+        let statusClass = '';
+        let statusIcon = '';
+        
+        if (savedSession) {
+            // Verifica pelo ID do card se ele já foi respondido
+            const isCorrect = savedSession.correct.find(c => c.id === card.id);
+            const isWrong = savedSession.wrong.find(c => c.id === card.id);
+            
+            if (isCorrect) {
+                statusClass = 'status-correct';
+                // Põe um checkzinho verde do lado do texto
+                statusIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; flex-shrink: 0;"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+            } else if (isWrong) {
+                statusClass = 'status-wrong';
+                // Põe um X vermelho do lado do texto
+                statusIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; flex-shrink: 0;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`;
+            }
+        }
+        
+        // Aplica a classe de cor se ele achou algo no cache
+        if(statusClass) li.classList.add(statusClass);
+
         li.innerHTML = `
             <div style="display: flex; align-items: center; gap: 12px; flex: 1; overflow: hidden;">
                 <span class="drag-handle" title="Segure para reordenar">${dragSvg}</span>
+                ${statusIcon}
                 <span class="item-text" style="font-weight:600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${card.front}">${card.front}</span>
             </div>
             <div style="display: flex; gap: 8px;">
@@ -368,18 +556,26 @@ document.getElementById('btn-start-study').addEventListener('click', () => {
     const col = collections.find(c => c.id === activeCollectionId);
     if (!col || col.cards.length === 0) return;
     
-    // MÁGICA 3: Deep Clone. Desvincula o array do jogo do array do banco de dados pra não dar conflito!
-    let deckCopy = JSON.parse(JSON.stringify(col.cards));
-    if (studyState.mode === 'rand') {
-        deckCopy.sort(() => Math.random() - 0.5);
+    const savedSession = localStorage.getItem(`memoryApp_session_${activeCollectionId}`);
+    
+    if (savedSession) {
+        // NOVO: Restaura o jogo do cache
+        studyState = JSON.parse(savedSession);
+    } else {
+        // Jogo Novo (Sua lógica original)
+        let deckCopy = JSON.parse(JSON.stringify(col.cards));
+        if (studyState.mode === 'rand') {
+            deckCopy.sort(() => Math.random() - 0.5);
+        }
+        studyState.deck = deckCopy;
+        studyState.currentIndex = 0;
+        studyState.correct = [];
+        studyState.wrong = [];
     }
     
-    studyState.deck = deckCopy;
-    studyState.currentIndex = 0;
-    studyState.correct = [];
-    studyState.wrong = [];
-    progressFill.style.width = '0%';
-    isTransitioning = false; // Garante que a trava está solta pra começar
+    // Atualiza a barra de progresso de onde parou
+    progressFill.style.width = `${(studyState.currentIndex / studyState.deck.length) * 100}%`;
+    isTransitioning = false; 
     
     renderStudyCard();
     showView('study');
@@ -396,9 +592,11 @@ function renderStudyCard() {
     document.getElementById('study-divider').classList.add('hidden');
     document.getElementById('btn-reveal').classList.remove('hidden');
     document.getElementById('judgement-buttons').classList.add('hidden');
+    startCardTimer(); // Inicia o timer para o card
 }
 
 document.getElementById('btn-reveal').addEventListener('click', () => {
+    clearInterval(studyTimerInterval); // Trava o tempo quando ele revela a resposta
     document.getElementById('study-back').classList.remove('hidden');
     document.getElementById('study-divider').classList.remove('hidden');
     document.getElementById('btn-reveal').classList.add('hidden');
@@ -420,6 +618,8 @@ function handleJudgement(isCorrect) {
     
     studyState.currentIndex++;
     progressFill.style.width = `${(studyState.currentIndex / studyState.deck.length) * 100}%`;
+    // NOVO: Salva o estado atualizado no cache
+    localStorage.setItem(`memoryApp_session_${activeCollectionId}`, JSON.stringify(studyState));
     
     if (studyState.currentIndex < studyState.deck.length) {
         renderStudyCard();
@@ -438,6 +638,7 @@ document.getElementById('btn-wrong').addEventListener('click', () => handleJudge
 
 // --- RESULTADOS E PERFORMANCE ---
 function showResults() {
+    localStorage.removeItem(`memoryApp_session_${activeCollectionId}`);
     const listCorrect = document.getElementById('list-correct');
     const listWrong = document.getElementById('list-wrong');
     listCorrect.innerHTML = '';
@@ -458,7 +659,9 @@ function showResults() {
         collection: colName,
         correct: studyState.correct.length,
         total: studyState.deck.length,
-        accuracy: accuracy
+        accuracy: accuracy,
+        correctCards: studyState.correct, 
+        wrongCards: studyState.wrong
     });
     
     saveData();
@@ -486,7 +689,7 @@ function renderPerformance() {
             <div class="swipe-action" onclick="deletePerformance('${perf.id}')">
                 ${trashSvg}
             </div>
-            <div class="swipe-content">
+            <div class="swipe-content" onclick="openPerformanceDetails('${perf.id}')" style="cursor: pointer;">
                 <div class="perf-info">
                     <h4>${perf.collection}</h4>
                     <span>${perf.date} • Acertou ${perf.correct} de ${perf.total}</span>
@@ -615,6 +818,39 @@ document.getElementById('file-import').addEventListener('change', function(event
         reader.readAsText(file);
     }
     event.target.value = ''; 
+});
+
+// --- RESETAR SESSÃO DE ESTUDO (RESTART) ---
+document.getElementById('btn-reset-study').addEventListener('click', () => {
+    // 1. Trava o relógio do card atual para não bugar
+    clearInterval(studyTimerInterval);
+    
+    // 2. Apaga o progresso salvo no cache
+    localStorage.removeItem(`memoryApp_session_${activeCollectionId}`);
+    
+    // 3. Puxa a coleção original para refazer o deck
+    const col = collections.find(c => c.id === activeCollectionId);
+    if (!col) return;
+
+    let deckCopy = JSON.parse(JSON.stringify(col.cards));
+    
+    // 4. Se o usuário estava no modo aleatório, reembaralha as cartas!
+    if (studyState.mode === 'rand') {
+        deckCopy.sort(() => Math.random() - 0.5);
+    }
+    
+    // 5. Zera a pontuação e os índices
+    studyState.deck = deckCopy;
+    studyState.currentIndex = 0;
+    studyState.correct = [];
+    studyState.wrong = [];
+    
+    // 6. Zera a barra de progresso verde lá em cima
+    progressFill.style.width = '0%';
+    isTransitioning = false;
+    
+    // 7. Renderiza a primeira carta como se nada tivesse acontecido
+    renderStudyCard();
 });
 
 // --- INICIALIZAÇÃO ---
