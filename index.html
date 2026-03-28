@@ -3,43 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory App</title>
+    <title>Memory App - JONI</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    
+    <script src="script.js" defer></script>
 </head>
 <body data-theme="light">
     <div class="app-layout">
 
-        <button id="btn-export-all" class="btn-icon global-export-btn" title="Fazer Backup de Tudo">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h11.175q.4 0 .763.15t.637.425l2.85 2.85q.275.275.425.638t.15.762V19q0 .825-.587 1.413T19 21zm9.125-3.875Q15 16.25 15 15t-.875-2.125T12 12t-2.125.875T9 15t.875 2.125T12 18t2.125-.875M7 10h7q.425 0 .713-.288T15 9V7q0-.425-.288-.712T14 6H7q-.425 0-.712.288T6 7v2q0 .425.288.713T7 10"/></svg>
+        <button id="btn-export-all" class="btn-icon global-export-btn" title="Fazer Backup de Tudo" aria-label="Fazer Backup de Tudo">
+            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h11.175q.4 0 .763.15t.637.425l2.85 2.85q.275.275.425.638t.15.762V19q0 .825-.587 1.413T19 21zm9.125-3.875Q15 16.25 15 15t-.875-2.125T12 12t-2.125.875T9 15t.875 2.125T12 18t2.125-.875M7 10h7q.425 0 .713-.288T15 9V7q0-.425-.288-.712T14 6H7q-.425 0-.712.288T6 7v2q0 .425.288.713T7 10"/>
+            </svg>
         </button>
         
         <aside class="sidebar">
             <div class="brand">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 24 24"><path fill="#10b981" d="M19 13v-3h-1V9h-1V6h-1V4h-1V3h-1V2h-1V1h-2v1h1v2h-1v2h-1v1H9v1H8v1H7v1H6v3h1v2H6v-1H5v-2H4v2H3v3h1v2h1v1h1v1h1v1h1v1h8v-1h1v-1h1v-1h1v-2h1v-5zm-2 7h-1v1h-2v1h-4v-1H9v-4h1v-1h1v-1h1v-1h1v-3h-1v-1h-1V9h1v1h2v2h1v5h-1v2h1v-1h1v-1h1z"/></svg>
+                <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                    <path fill="#10b981" d="M19 13v-3h-1V9h-1V6h-1V4h-1V3h-1V2h-1V1h-2v1h1v2h-1v2h-1v1H9v1H8v1H7v1H6v3h1v2H6v-1H5v-2H4v2H3v3h1v2h1v1h1v1h1v1h1v1h8v-1h1v-1h1v-1h1v-2h1v-5zm-2 7h-1v1h-2v1h-4v-1H9v-4h1v-1h1v-1h1v-1h1v-3h-1v-1h-1V9h1v1h2v2h1v5h-1v2h1v-1h1v-1h1z"/>
+                </svg>
                 <span>JONI</span>
             </div>
             
             <nav class="nav-menu">
                 <button class="nav-item active" data-target="view-dashboard" title="Coleções">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M9.25 3.5A1.75 1.75 0 0 0 7.5 5.25v1a.75.75 0 0 1-1.5 0v-1A3.25 3.25 0 0 1 9.25 2h1a.75.75 0 0 1 0 1.5zM12 2.75a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75m.75 13.75a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5zm-6-8.5a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-1.5 0v-2.5A.75.75 0 0 1 6.75 8M22 8.75a.75.75 0 0 0-1.5 0v2.5a.75.75 0 0 0 1.5 0zm-3.25 7.75a1.75 1.75 0 0 0 1.75-1.75v-1a.75.75 0 0 1 1.5 0v1A3.25 3.25 0 0 1 18.75 18h-1a.75.75 0 0 1 0-1.5zM20.5 5.25a1.75 1.75 0 0 0-1.75-1.75h-1a.75.75 0 0 1 0-1.5h1A3.25 3.25 0 0 1 22 5.25v1a.75.75 0 0 1-1.5 0zM9.25 16.5a1.75 1.75 0 0 1-1.75-1.75v-1a.75.75 0 0 0-1.5 0v1A3.25 3.25 0 0 0 9.25 18h1a.75.75 0 0 0 0-1.5zM2 9.25a3.25 3.25 0 0 1 3-3.24V15a4 4 0 0 0 4 4h8.99a3.25 3.25 0 0 1-3.24 3h-7A5.75 5.75 0 0 1 2 16.25z"/></svg>
+                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M9.25 3.5A1.75 1.75 0 0 0 7.5 5.25v1a.75.75 0 0 1-1.5 0v-1A3.25 3.25 0 0 1 9.25 2h1a.75.75 0 0 1 0 1.5zM12 2.75a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75m.75 13.75a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5zm-6-8.5a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-1.5 0v-2.5A.75.75 0 0 1 6.75 8M22 8.75a.75.75 0 0 0-1.5 0v2.5a.75.75 0 0 0 1.5 0zm-3.25 7.75a1.75 1.75 0 0 0 1.75-1.75v-1a.75.75 0 0 1 1.5 0v1A3.25 3.25 0 0 1 18.75 18h-1a.75.75 0 0 1 0-1.5zM20.5 5.25a1.75 1.75 0 0 0-1.75-1.75h-1a.75.75 0 0 1 0-1.5h1A3.25 3.25 0 0 1 22 5.25v1a.75.75 0 0 1-1.5 0zM9.25 16.5a1.75 1.75 0 0 1-1.75-1.75v-1a.75.75 0 0 0-1.5 0v1A3.25 3.25 0 0 0 9.25 18h1a.75.75 0 0 0 0-1.5zM2 9.25a3.25 3.25 0 0 1 3-3.24V15a4 4 0 0 0 4 4h8.99a3.25 3.25 0 0 1-3.24 3h-7A5.75 5.75 0 0 1 2 16.25z"/>
+                    </svg>
                     <span class="hide-mobile">Coleções</span>
                 </button>
                 <button class="nav-item" data-target="view-performance" title="Performance">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" fill-rule="evenodd"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/><path fill="currentColor" d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm10.939 2.655c-.353-.883-1.618-.833-1.902.074l-1.752 5.606l-.388-.777A1.01 1.01 0 0 0 8.994 12H7a1 1 0 1 0 0 2h1.382l1.212 2.425c.407.813 1.597.717 1.868-.15l1.654-5.293l.953 2.383c.153.384.525.635.938.635H17a1 1 0 1 0 0-2h-1.323z"/></g></svg>
+                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <g fill="none" fill-rule="evenodd">
+                            <path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"/>
+                            <path fill="currentColor" d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm10.939 2.655c-.353-.883-1.618-.833-1.902.074l-1.752 5.606l-.388-.777A1.01 1.01 0 0 0 8.994 12H7a1 1 0 1 0 0 2h1.382l1.212 2.425c.407.813 1.597.717 1.868-.15l1.654-5.293l.953 2.383c.153.384.525.635.938.635H17a1 1 0 1 0 0-2h-1.323z"/>
+                        </g>
+                    </svg>
                     <span class="hide-mobile">Performance</span>
                 </button>
             </nav>
 
             <div class="sidebar-footer">
                 <label for="file-import" class="nav-item action-btn" title="Importar">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m12 2l.117.007a1 1 0 0 1 .876.876L13 3v4l.005.15a2 2 0 0 0 1.838 1.844L15 9h4l.117.007a1 1 0 0 1 .876.876L20 10v9a3 3 0 0 1-2.824 2.995L17 22H7a3 3 0 0 1-2.995-2.824L4 19V5a3 3 0 0 1 2.824-2.995L7 2zm0 8a1 1 0 0 0-1 1v3.585l-.793-.792a1 1 0 0 0-1.32-.083l-.094.083a1 1 0 0 0 0 1.414l2.5 2.5l.044.042l.068.055l.11.071l.114.054l.105.035l.15.03L12 18l.117-.007l.117-.02l.108-.033l.081-.034l.098-.052l.092-.064l.094-.083l2.5-2.5a1 1 0 0 0 0-1.414l-.094-.083a1 1 0 0 0-1.32.083l-.793.791V11a1 1 0 0 0-.883-.993zm2.999-7.001L19 7h-4z"/></svg>
+                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="m12 2l.117.007a1 1 0 0 1 .876.876L13 3v4l.005.15a2 2 0 0 0 1.838 1.844L15 9h4l.117.007a1 1 0 0 1 .876.876L20 10v9a3 3 0 0 1-2.824 2.995L17 22H7a3 3 0 0 1-2.995-2.824L4 19V5a3 3 0 0 1 2.824-2.995L7 2zm0 8a1 1 0 0 0-1 1v3.585l-.793-.792a1 1 0 0 0-1.32-.083l-.094.083a1 1 0 0 0 0 1.414l2.5 2.5l.044.042l.068.055l.11.071l.114.054l.105.035l.15.03L12 18l.117-.007l.117-.02l.108-.033l.081-.034l.098-.052l.092-.064l.094-.083l2.5-2.5a1 1 0 0 0 0-1.414l-.094-.083a1 1 0 0 0-1.32.083l-.793.791V11a1 1 0 0 0-.883-.993zm2.999-7.001L19 7h-4z"/>
+                    </svg>
                     <span class="hide-mobile">Carregar</span>
                 </label>
                 <input type="file" id="file-import" accept=".json" class="hidden">
                 
-                <button id="btn-theme-toggle" class="nav-item action-btn" title="Mudar Tema">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M14.01 2.2h-.06c-.63-.13-1.29-.2-1.96-.2C6.49 2 2 6.49 2 12s4.49 10 10 10c.66 0 1.32-.07 1.95-.19h.07c4.42-.91 7.69-4.69 7.96-9.14c.02-.22.03-.43.03-.66s0-.44-.02-.61c-.27-4.5-3.55-8.28-7.97-9.19Zm5.97 10.29c-.21 3.52-2.73 6.47-6.14 7.28C11.63 18.9 10 15.63 10 12s1.64-6.9 3.84-7.77c3.41.81 5.93 3.77 6.14 7.33c.02.14.01.29.01.44s0 .3-.02.49Z"/></svg>
+                <button id="btn-theme-toggle" class="nav-item action-btn" title="Mudar Tema" aria-label="Mudar Tema">
+                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M14.01 2.2h-.06c-.63-.13-1.29-.2-1.96-.2C6.49 2 2 6.49 2 12s4.49 10 10 10c.66 0 1.32-.07 1.95-.19h.07c4.42-.91 7.69-4.69 7.96-9.14c.02-.22.03-.43.03-.66s0-.44-.02-.61c-.27-4.5-3.55-8.28-7.97-9.19Zm5.97 10.29c-.21 3.52-2.73 6.47-6.14 7.28C11.63 18.9 10 15.63 10 12s1.64-6.9 3.84-7.77c3.41.81 5.93 3.77 6.14 7.33c.02.14.01.29.01.44s0 .3-.02.49Z"/>
+                    </svg>
                     <span class="hide-mobile">Tema</span>
                 </button>
             </div>
@@ -54,14 +75,21 @@
                 
                 <section id="view-dashboard" class="view-section active">
                     <div class="brand mobile-top-logo">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px" viewBox="0 0 24 24"><path fill="#10b981" d="M19 13v-3h-1V9h-1V6h-1V4h-1V3h-1V2h-1V1h-2v1h1v2h-1v2h-1v1H9v1H8v1H7v1H6v3h1v2H6v-1H5v-2H4v2H3v3h1v2h1v1h1v1h1v1h1v1h8v-1h1v-1h1v-1h1v-2h1v-5zm-2 7h-1v1h-2v1h-4v-1H9v-4h1v-1h1v-1h1v-1h1v-3h-1v-1h-1V9h1v1h2v2h1v5h-1v2h1v-1h1v-1h1z"/></svg>
+                        <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                            <path fill="#10b981" d="M19 13v-3h-1V9h-1V6h-1V4h-1V3h-1V2h-1V1h-2v1h1v2h-1v2h-1v1H9v1H8v1H7v1H6v3h1v2H6v-1H5v-2H4v2H3v3h1v2h1v1h1v1h1v1h1v1h8v-1h1v-1h1v-1h1v-2h1v-5zm-2 7h-1v1h-2v1h-4v-1H9v-4h1v-1h1v-1h1v-1h1v-3h-1v-1h-1V9h1v1h2v2h1v5h-1v2h1v-1h1v-1h1z"/>
+                        </svg>
                         <span>JONI</span>
                     </div>
 
                     <header class="view-header">
                         <h1>Coleções</h1>
                         <button id="btn-new-collection" class="btn-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"><path d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12m10-8a8 8 0 1 0 0 16a8 8 0 0 0 0-16"/><path d="M13 7a1 1 0 1 0-2 0v4H7a1 1 0 1 0 0 2h4v4a1 1 0 1 0 2 0v-4h4a1 1 0 1 0 0-2h-4z"/></g></svg>
+                            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                <g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd">
+                                    <path d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12m10-8a8 8 0 1 0 0 16a8 8 0 0 0 0-16"/>
+                                    <path d="M13 7a1 1 0 1 0-2 0v4H7a1 1 0 1 0 0 2h4v4a1 1 0 1 0 2 0v-4h4a1 1 0 1 0 0-2h-4z"/>
+                                </g>
+                            </svg>
                             Criar Coleção
                         </button>
                     </header>
@@ -80,27 +108,39 @@
                 <section id="view-manager" class="view-section hidden">
                     <header class="view-header">
                         <div class="header-titles">
-                            <button class="btn-icon btn-back" title="Voltar">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                            <button class="btn-icon btn-back" title="Voltar" aria-label="Voltar">
+                                <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                                    <polyline points="12 19 5 12 12 5"></polyline>
+                                </svg>
                             </button>
                             <h1 id="current-collection-title">Coleção</h1>
                         </div>
                         <div class="study-setup-actions">
                             <div class="mode-switch">
-                                <button id="mode-seq" class="switch-btn active" title="Em Ordem">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 5h10v2H12m0 12v-2h10v2m-10-8h10v2H12m-3 0v2l-3.33 4H9v2H3v-2l3.33-4H3v-2M7 3H5c-1.1 0-2 .9-2 2v6h2V9h2v2h2V5a2 2 0 0 0-2-2m0 4H5V5h2Z"/></svg>    
+                                <button id="mode-seq" class="switch-btn active" title="Em Ordem" aria-label="Em Ordem">
+                                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M12 5h10v2H12m0 12v-2h10v2m-10-8h10v2H12m-3 0v2l-3.33 4H9v2H3v-2l3.33-4H3v-2M7 3H5c-1.1 0-2 .9-2 2v6h2V9h2v2h2V5a2 2 0 0 0-2-2m0 4H5V5h2Z"/>
+                                    </svg>    
                                 </button>
-                                <button id="mode-rand" class="switch-btn" title="Aleatório">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M4 17a1 1 0 0 1 0-2h2l3-3l-3-3H4a1.001 1.001 0 0 1 0-2h3l4 4l4-4h2V5l4 3.001L17 11V9h-1l-3 3l3 3h1v-2l4 3l-4 3v-2h-2l-4-4l-4 4z"/></svg>    
+                                <button id="mode-rand" class="switch-btn" title="Aleatório" aria-label="Aleatório">
+                                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path fill="currentColor" fill-rule="evenodd" d="M4 17a1 1 0 0 1 0-2h2l3-3l-3-3H4a1.001 1.001 0 0 1 0-2h3l4 4l4-4h2V5l4 3.001L17 11V9h-1l-3 3l3 3h1v-2l4 3l-4 3v-2h-2l-4-4l-4 4z"/>
+                                    </svg>    
                                 </button>
                             </div>
                             
-                            <button id="btn-timer-setup" class="btn-icon" style="background: var(--bg-panel); border: 1px solid var(--border);" title="Tempo por Card">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <button id="btn-timer-setup" class="btn-icon" style="background: var(--bg-panel); border: 1px solid var(--border);" title="Tempo por Card" aria-label="Tempo por Card">
+                                <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
                             </button>
                             
                             <button id="btn-start-study" class="btn-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.906 4.537A.6.6 0 0 0 6 5.053v13.894a.6.6 0 0 0 .906.516l11.723-6.947a.6.6 0 0 0 0-1.032z"/></svg>
+                                <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                    <path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.906 4.537A.6.6 0 0 0 6 5.053v13.894a.6.6 0 0 0 .906.516l11.723-6.947a.6.6 0 0 0 0-1.032z"/>
+                                </svg>
                                 Jogar
                             </button>
                         </div>
@@ -111,8 +151,27 @@
                             <input type="text" id="input-front" class="input-clean title-input" placeholder="Frente do card...">
                             <hr class="divider">
                             <textarea id="input-back" class="input-clean body-input" placeholder="Verso do card..."></textarea>
+                            
                             <div class="box-footer">
-                                <button id="btn-add-card" class="btn-secondary">Adicionar Card</button>
+                                <div>
+                                    <label for="file-import-append" class="btn-secondary import-label" title="Importar cards para esta coleção">
+                                        <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                            <polyline points="7 10 12 15 17 10"></polyline>
+                                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                                        </svg>
+                                        Importar
+                                    </label>
+                                    <input type="file" id="file-import-append" accept=".json" class="hidden">
+                                </div>
+
+                                <button id="btn-add-card" class="btn-secondary">
+                                    <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    </svg>
+                                    Adicionar
+                                </button>
                             </div>
                         </div>
 
@@ -124,26 +183,31 @@
                             <input type="text" id="input-search-cards" class="input-clean modal-input" placeholder="Pesquisar na coleção..." style="padding: 10px 16px; border-radius: 12px; margin-bottom: 16px; font-size: 0.9rem; background: var(--bg-app);">
                             <ul id="cards-list" class="item-list sortable-list"></ul>
                         </div>
-                    
+                    </div>
                 </section>
 
                 <section id="view-study" class="view-section hidden">
-                    
                     <header class="view-header study-header">
-                        <button id="btn-back-study" class="btn-icon btn-back" title="Sair do Jogo">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                        <button id="btn-back-study" class="btn-icon btn-back" title="Sair do Jogo" aria-label="Sair do Jogo">
+                            <svg aria-hidden="true" focusable="false" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
+                            </svg>
                         </button>
                         
-                        <button id="btn-reset-study" class="btn-icon" title="Reiniciar Sessão">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><polyline points="3 3 3 8 8 8"></polyline></svg>
+                        <button id="btn-reset-study" class="btn-icon" title="Reiniciar Sessão" aria-label="Reiniciar Sessão">
+                            <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                                <polyline points="3 3 3 8 8 8"></polyline>
+                            </svg>
                         </button>
                     </header>
 
                     <div class="study-container">
                         <div class="flashcard panel" id="active-card" style="position: relative; overflow: hidden;">
-                        <div id="card-timer-bar" style="position: absolute; top: 0; left: 0; height: 6px; width: 100%; background: var(--accent); transition: width 1s linear; display: none;"></div>
-                        
-                        <h2 id="study-front" class="card-front-text"></h2>
+                            <div id="card-timer-bar" style="position: absolute; top: 0; left: 0; height: 6px; width: 100%; background: var(--accent); transition: width 1s linear; display: none;"></div>
+                            
+                            <h2 id="study-front" class="card-front-text"></h2>
                             <hr id="study-divider" class="divider hidden">
                             <p id="study-back" class="card-back-text hidden"></p>
                         </div>
@@ -152,11 +216,16 @@
                             <button id="btn-reveal" class="btn-primary full-width">Mostrar Resposta</button>
                             <div id="judgement-buttons" class="judgement-grid hidden">
                                 <button id="btn-wrong" class="btn-danger">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M20.48 3.512a11.97 11.97 0 0 0-8.486-3.514C5.366-.002-.007 5.371-.007 11.999c0 3.314 1.344 6.315 3.516 8.487A11.97 11.97 0 0 0 11.995 24c6.628 0 12.001-5.373 12.001-12.001c0-3.314-1.344-6.315-3.516-8.487m-1.542 15.427a9.8 9.8 0 0 1-6.943 2.876c-5.423 0-9.819-4.396-9.819-9.819a9.8 9.8 0 0 1 2.876-6.943a9.8 9.8 0 0 1 6.942-2.876c5.422 0 9.818 4.396 9.818 9.818a9.8 9.8 0 0 1-2.876 6.942z"/><path fill="currentColor" d="m13.537 12l3.855-3.855a1.091 1.091 0 0 0-1.542-1.541l.001-.001l-3.855 3.855l-3.855-3.855A1.091 1.091 0 0 0 6.6 8.145l-.001-.001l3.855 3.855l-3.855 3.855a1.091 1.091 0 1 0 1.541 1.542l.001-.001l3.855-3.855l3.855 3.855a1.091 1.091 0 1 0 1.542-1.541l-.001-.001z"/></svg>
+                                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="M20.48 3.512a11.97 11.97 0 0 0-8.486-3.514C5.366-.002-.007 5.371-.007 11.999c0 3.314 1.344 6.315 3.516 8.487A11.97 11.97 0 0 0 11.995 24c6.628 0 12.001-5.373 12.001-12.001c0-3.314-1.344-6.315-3.516-8.487m-1.542 15.427a9.8 9.8 0 0 1-6.943 2.876c-5.423 0-9.819-4.396-9.819-9.819a9.8 9.8 0 0 1 2.876-6.943a9.8 9.8 0 0 1 6.942-2.876c5.422 0 9.818 4.396 9.818 9.818a9.8 9.8 0 0 1-2.876 6.942z"/>
+                                        <path fill="currentColor" d="m13.537 12l3.855-3.855a1.091 1.091 0 0 0-1.542-1.541l.001-.001l-3.855 3.855l-3.855-3.855A1.091 1.091 0 0 0 6.6 8.145l-.001-.001l3.855 3.855l-3.855 3.855a1.091 1.091 0 1 0 1.541 1.542l.001-.001l3.855-3.855l3.855 3.855a1.091 1.091 0 1 0 1.542-1.541l-.001-.001z"/>
+                                    </svg>
                                     Não Lembrei
                                 </button>
                                 <button id="btn-correct" class="btn-success">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="m9 20.42l-6.21-6.21l2.83-2.83L9 14.77l9.88-9.89l2.83 2.83z"/></svg>
+                                    <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="m9 20.42l-6.21-6.21l2.83-2.83L9 14.77l9.88-9.89l2.83 2.83z"/>
+                                    </svg>
                                     Lembrei
                                 </button>
                             </div>
@@ -190,8 +259,11 @@
         <div class="modal-content panel">
             <div class="modal-header">
                 <h2>Nova Coleção</h2>
-                <button class="btn-icon close-modal" title="Fechar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <button class="btn-icon close-modal" title="Fechar" aria-label="Fechar">
+                    <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                 </button>
             </div>
             <div class="modal-body">
@@ -208,8 +280,11 @@
         <div class="modal-content panel">
             <div class="modal-header">
                 <h2>Excluir Coleção</h2>
-                <button class="btn-icon close-modal" title="Fechar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <button class="btn-icon close-modal" title="Fechar" aria-label="Fechar">
+                    <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                 </button>
             </div>
             <div class="modal-body">
@@ -226,8 +301,11 @@
         <div class="modal-content panel">
             <div class="modal-header">
                 <h2>Editar Card</h2>
-                <button class="btn-icon close-modal" title="Fechar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <button class="btn-icon close-modal" title="Fechar" aria-label="Fechar">
+                    <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                 </button>
             </div>
             <div class="modal-body" style="display: flex; flex-direction: column; gap: 16px;">
@@ -245,8 +323,11 @@
         <div class="modal-content panel">
             <div class="modal-header">
                 <h2>Renomear Coleção</h2>
-                <button class="btn-icon close-modal" title="Fechar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <button class="btn-icon close-modal" title="Fechar" aria-label="Fechar">
+                    <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                 </button>
             </div>
             <div class="modal-body">
@@ -263,8 +344,11 @@
         <div class="modal-content panel" style="max-height: 85vh; display: flex; flex-direction: column;">
             <div class="modal-header">
                 <h2>Detalhes da Sessão</h2>
-                <button class="btn-icon close-modal" title="Fechar">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                <button class="btn-icon close-modal" title="Fechar" aria-label="Fechar">
+                    <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
                 </button>
             </div>
             
@@ -281,34 +365,64 @@
             
             <div class="modal-actions" style="flex-direction: column; gap: 8px;">
                 <button class="btn-primary close-modal" style="width: 100%;">Fechar</button>
-                <button id="btn-create-reinforcement" class="btn-secondary" style="width: 100%; border-color: var(--accent); color: var(--accent);">Criar Coleção de Reforço (Erros)</button>
+                <button id="btn-create-reinforcement" class="btn-secondary" style="width: 100%; border-color: var(--accent); color: var(--accent);">Criar Coleção de Reforço</button>
             </div>
         </div>
     </div>
 
     <div id="modal-timer" class="modal-overlay hidden">
-    <div class="modal-content panel">
-        <div class="modal-header">
-            <h2>Tempo de Foco (Timer)</h2>
-            <button class="btn-icon close-modal" title="Fechar">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-        </div>
-        <div class="modal-body" style="text-align: center;">
-            <p class="modal-text" style="margin-bottom: 16px;">Defina o tempo limite para você se forçar a lembrar da resposta.</p>
-            <h3 id="timer-display" style="font-size: 2rem; color: var(--accent); margin-bottom: 16px; font-weight: 800;">Desativado</h3>
-            <input type="range" id="timer-slider" min="0" max="30" step="5" value="0" style="width: 100%; accent-color: var(--accent);">
-            <div style="display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">
-                <span>Desativado</span>
-                <span>30s</span>
+        <div class="modal-content panel">
+            <div class="modal-header">
+                <h2>Tempo de Foco (Timer)</h2>
+                <button class="btn-icon close-modal" title="Fechar" aria-label="Fechar">
+                    <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <p class="modal-text" style="margin-bottom: 16px;">Defina o tempo limite para você se forçar a lembrar da resposta.</p>
+                <h3 id="timer-display" style="font-size: 2rem; color: var(--accent); margin-bottom: 16px; font-weight: 800;">Desativado</h3>
+                <input type="range" id="timer-slider" min="0" max="30" step="5" value="0" style="width: 100%; accent-color: var(--accent);">
+                <div style="display: flex; justify-content: space-between; color: var(--text-muted); font-size: 0.85rem; margin-top: 8px;">
+                    <span>Desativado</span>
+                    <span>30s</span>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary close-modal" style="width: 100%;">Confirmar</button>
             </div>
         </div>
-        <div class="modal-actions">
-            <button class="btn-primary close-modal" style="width: 100%;">Confirmar</button>
+    </div>
+
+    <div id="modal-view-card" class="modal-overlay hidden">
+        <div class="modal-content panel">
+            <div class="modal-header">
+                <h2>Detalhes do Card</h2>
+                <button class="btn-icon close-modal" title="Fechar" aria-label="Fechar">
+                    <svg aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" style="display: flex; flex-direction: column; gap: 16px;">
+                <div>
+                    <span style="font-size: 0.85rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Frente</span>
+                    <p id="view-card-front" style="font-size: 1.25rem; font-weight: 600; color: var(--text-main); margin-top: 4px; word-break: break-word;"></p>
+                </div>
+                <hr class="divider" style="margin: 0;">
+                <div>
+                    <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">Verso</span>
+                    <p id="view-card-back" style="font-size: 1.05rem; color: var(--text-muted); margin-top: 4px; word-break: break-word; white-space: pre-wrap;"></p>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-primary close-modal" style="width: 100%;">Fechar</button>
+            </div>
         </div>
     </div>
-</div>
 
-    <script src="script.js"></script>
 </body>
 </html>
