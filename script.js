@@ -150,7 +150,6 @@ document.querySelector('#view-results .btn-back').addEventListener('click', () =
 // ============================================================================
 // --- LÓGICA UNIVERSAL DE MODAIS ---
 // ============================================================================
-// Fechar ao clicar no "X"
 document.querySelectorAll('.close-modal').forEach(btn => {
     btn.addEventListener('click', (e) => {
         const modal = e.currentTarget.closest('.modal-overlay');
@@ -158,7 +157,6 @@ document.querySelectorAll('.close-modal').forEach(btn => {
     });
 });
 
-// Fechar ao clicar fora (no fundo escuro)
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('mousedown', (e) => {
         if (e.target === overlay) {
@@ -312,7 +310,6 @@ document.getElementById('btn-add-card').addEventListener('click', () => {
     }
 });
 
-// Modal: Visualizar Card
 window.openViewCard = function(cardId) {
     const col = collections.find(c => c.id === activeCollectionId);
     if (!col) return;
@@ -324,7 +321,6 @@ window.openViewCard = function(cardId) {
     document.getElementById('modal-view-card').classList.remove('hidden');
 };
 
-// Modal: Editar Card
 window.openEditCard = function(cardId) {
     cardToEditId = cardId;
     const col = collections.find(c => c.id === activeCollectionId);
@@ -436,17 +432,15 @@ function renderCardsList() {
             </div>
         `;
         
-        // Listeners para Desktop
         li.addEventListener('dragstart', handleDragStart);
         li.addEventListener('dragover', handleDragOver);
         li.addEventListener('drop', handleDrop);
         li.addEventListener('dragend', () => li.classList.remove('dragging'));
 
-        // Listeners para Mobile (Touch)
         li.addEventListener('touchstart', handleTouchStart, { passive: false });
         li.addEventListener('touchmove', handleTouchMove, { passive: false });
         li.addEventListener('touchend', handleTouchEnd);
-        li.addEventListener('touchcancel', handleTouchEnd); // Segurança caso o SO interrompa o touch
+        li.addEventListener('touchcancel', handleTouchEnd); 
 
         fragment.appendChild(li);
     });
@@ -458,7 +452,8 @@ function renderCardsList() {
 // --- ENGINE DE DRAG AND DROP (DESKTOP E MOBILE) ---
 // ============================================================================
 let draggedItemIndex = null;
-let draggedLi = null; // Specífico para o fluxo Mobile
+let draggedLi = null; 
+let touchClone = null; // O Fantasma do Touch
 
 // --- FLUXO DESKTOP (Mouse) ---
 function handleDragStart(e) {
@@ -486,54 +481,71 @@ function handleDrop(e) {
 
 // --- FLUXO MOBILE (Touch/Dedo) ---
 function handleTouchStart(e) {
-    // Só ativa o modo de arrasto se o usuário pressionar o ícone da esquerda
     if (!e.target.closest('.drag-handle')) return; 
     
     draggedItemIndex = +e.currentTarget.dataset.index;
     draggedLi = e.currentTarget;
-    draggedLi.classList.add('dragging');
     
-    // A MÁGICA DE UX: Congela a rolagem da página para o card não "fugir" do dedo
-    DOM.body.style.overflow = 'hidden'; 
+    // A Mágica do Ghost: Criamos um clone absoluto para seguir o dedo
+    const rect = draggedLi.getBoundingClientRect();
+    touchClone = draggedLi.cloneNode(true);
+    
+    touchClone.style.position = 'fixed';
+    touchClone.style.top = `${rect.top}px`;
+    touchClone.style.left = `${rect.left}px`;
+    touchClone.style.width = `${rect.width}px`;
+    touchClone.style.height = `${rect.height}px`;
+    touchClone.style.margin = '0';
+    touchClone.style.zIndex = '9999';
+    touchClone.style.opacity = '0.9';
+    touchClone.style.boxShadow = '0 10px 25px rgba(0,0,0,0.2)';
+    touchClone.style.pointerEvents = 'none'; // CRÍTICO: Permite que o código "leia" através do fantasma
+    touchClone.classList.add('dragging');
+    
+    DOM.body.appendChild(touchClone);
+
+    // Esconde o original mas mantém a caixa ocupando espaço na DOM
+    draggedLi.style.opacity = '0';
+    DOM.body.style.overflow = 'hidden'; // Trava o scroll da página
 }
 
 function handleTouchMove(e) {
-    if (!draggedLi) return;
-    
-    // Trava completamente o pull-to-refresh e scroll nativo enquanto arrasta
-    e.preventDefault(); 
+    if (!touchClone) return;
+    e.preventDefault(); // Impede o Pull-to-Refresh
     
     const touch = e.touches[0];
     
-    // Descobre dinamicamente qual elemento do DOM está exatamente abaixo das coordenadas X/Y do dedo
+    // Move o clone visualmente
+    touchClone.style.top = `${touch.clientY - touchClone.offsetHeight / 2}px`;
+    
+    // Calcula quem está exatamente debaixo do dedo (funciona pq o clone tem pointer-events:none)
     const elementUnderFinger = document.elementFromPoint(touch.clientX, touch.clientY);
     if (!elementUnderFinger) return;
 
     const targetLi = elementUnderFinger.closest('li');
     
-    // Lógica de Swap Visual (Dá o feedback em tempo real para o usuário)
-    if (targetLi && targetLi !== draggedLi) {
-        const list = targetLi.parentNode;
-        const targetRect = targetLi.getBoundingClientRect();
+    if (targetLi && targetLi !== draggedLi && targetLi.parentNode === DOM.cardsList) {
+        const rect = targetLi.getBoundingClientRect();
+        const isBottomHalf = touch.clientY > rect.top + (rect.height / 2);
         
-        // Se o dedo passou da metade da altura do card alvo, joga o draggedLi para baixo dele
-        const isBottomHalf = touch.clientY > targetRect.top + (targetRect.height / 2);
-        
+        // Move o bloco invisível na lista real por baixo dos panos
         if (isBottomHalf) {
-            list.insertBefore(draggedLi, targetLi.nextSibling);
+            DOM.cardsList.insertBefore(draggedLi, targetLi.nextSibling);
         } else {
-            list.insertBefore(draggedLi, targetLi);
+            DOM.cardsList.insertBefore(draggedLi, targetLi);
         }
     }
 }
 
 function handleTouchEnd(e) {
-    if (!draggedLi) return;
+    if (!touchClone) return;
     
-    DOM.body.style.overflow = ''; // Devolve a rolagem normal ao body
-    draggedLi.classList.remove('dragging');
+    DOM.body.style.overflow = ''; 
+    touchClone.remove(); // Mata o fantasma
+    touchClone = null;
     
-    // Pega o estado final visual da lista para recalcular o index
+    draggedLi.style.opacity = '1'; // Revela o item real que já foi reposicionado
+    
     const listItems = Array.from(DOM.cardsList.children);
     const newDropIndex = listItems.indexOf(draggedLi);
     
