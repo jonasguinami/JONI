@@ -5,7 +5,7 @@ let collections = JSON.parse(localStorage.getItem('memoryApp_collections')) || [
 let performanceHistory = JSON.parse(localStorage.getItem('memoryApp_performance')) || [];
 let activeCollectionId = null;
 let studyState = { deck: [], currentIndex: 0, correct: [], wrong: [], mode: 'seq' };
-let isTransitioning = false; // Trava de segurança para impedir duplo clique/bugs de tela
+let isTransitioning = false; 
 
 // ============================================================================
 // --- CACHE DE ELEMENTOS DA DOM ---
@@ -50,32 +50,23 @@ const DOM = {
     views: ['dashboard', 'performance', 'manager', 'study', 'results']
 };
 
-// Variaveis Auxiliares de Modais
 let collectionToDeleteId = null;
 let collectionToEditId = null;
 let cardToEditId = null;
 let currentPerfIdForModal = null;
 
-// Temporizadores
-let cardTimerSeconds = 0; // 0 = Desativado
+let cardTimerSeconds = 0; 
 let studyTimerInterval = null;
 
 // ============================================================================
 // --- UTILITÁRIOS & HELPERS ---
 // ============================================================================
-
-/**
- * Gera IDs únicos utilizando Crypto API com fallback para Data/Random (Blindado)
- */
 function generateId() {
     return typeof crypto !== 'undefined' && crypto.randomUUID 
         ? crypto.randomUUID() 
         : Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
 
-/**
- * Função de Debounce para otimizar pesquisas em tempo real
- */
 function debounce(func, delay) {
     let timeout;
     return function (...args) {
@@ -84,18 +75,12 @@ function debounce(func, delay) {
     };
 }
 
-/**
- * Clonagem profunda (Deep Clone) otimizada
- */
 function deepClone(obj) {
     return typeof structuredClone === 'function' 
         ? structuredClone(obj) 
         : JSON.parse(JSON.stringify(obj));
 }
 
-/**
- * Salva os dados no localStorage de forma centralizada
- */
 function saveData() { 
     localStorage.setItem('memoryApp_collections', JSON.stringify(collections)); 
     localStorage.setItem('memoryApp_performance', JSON.stringify(performanceHistory));
@@ -134,7 +119,6 @@ function showView(targetView) {
     });
 }
 
-// Eventos de Navegação Lateral
 document.querySelectorAll('.nav-item[data-target]').forEach(btn => {
     btn.addEventListener('click', (e) => {
         const target = e.currentTarget.getAttribute('data-target').replace('view-', '');
@@ -147,11 +131,10 @@ document.querySelectorAll('.nav-item[data-target]').forEach(btn => {
     });
 });
 
-// Botões Específicos de Navegação (Back/Concluir)
 document.getElementById('btn-back-study').addEventListener('click', () => {
     clearInterval(studyTimerInterval);
     showView('manager');
-    openManager(activeCollectionId); // Recarrega para mostrar status "Continuar"
+    openManager(activeCollectionId); 
 });
 
 document.querySelector('#view-manager .btn-back').addEventListener('click', () => {
@@ -167,6 +150,7 @@ document.querySelector('#view-results .btn-back').addEventListener('click', () =
 // ============================================================================
 // --- LÓGICA UNIVERSAL DE MODAIS ---
 // ============================================================================
+// Fechar ao clicar no "X"
 document.querySelectorAll('.close-modal').forEach(btn => {
     btn.addEventListener('click', (e) => {
         const modal = e.currentTarget.closest('.modal-overlay');
@@ -174,6 +158,7 @@ document.querySelectorAll('.close-modal').forEach(btn => {
     });
 });
 
+// Fechar ao clicar fora (no fundo escuro)
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('mousedown', (e) => {
         if (e.target === overlay) {
@@ -182,24 +167,9 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
     });
 });
 
-// NOVO: Função Global para Visualizar o Card (Modo Leitura)
-window.openViewCard = function(cardId) {
-    const col = collections.find(c => c.id === activeCollectionId);
-    if (!col) return;
-    
-    const card = col.cards.find(c => c.id === cardId);
-    if (!card) return;
-    
-    document.getElementById('view-card-front').textContent = card.front;
-    document.getElementById('view-card-back').textContent = card.back;
-    document.getElementById('modal-view-card').classList.remove('hidden');
-};
-
 // ============================================================================
 // --- COLEÇÕES: CRUD MODAIS E RENDERS ---
 // ============================================================================
-
-// Modal: Criar Coleção
 document.getElementById('btn-new-collection').addEventListener('click', () => {
     DOM.inputCollectionName.value = '';
     DOM.modalCreate.classList.remove('hidden');
@@ -216,7 +186,6 @@ document.getElementById('btn-confirm-create').addEventListener('click', () => {
     }
 });
 
-// Modal: Excluir Coleção
 window.deleteCollection = function(id, e) {
     e.stopPropagation();
     collectionToDeleteId = id;
@@ -234,7 +203,6 @@ document.getElementById('btn-confirm-delete').addEventListener('click', () => {
     }
 });
 
-// Modal: Renomear Coleção
 window.openEditCollection = function(id, e) {
     e.stopPropagation(); 
     collectionToEditId = id;
@@ -266,7 +234,6 @@ document.getElementById('btn-confirm-edit-collection').addEventListener('click',
     }
 });
 
-// Renderização: Dashboard Principal
 function renderDashboard() {
     DOM.collectionsGrid.innerHTML = '';
     
@@ -285,7 +252,6 @@ function renderDashboard() {
         return; 
     }
     
-    // Performance Otimização: Evitar múltiplos reflows na grid usando DocumentFragment
     const fragment = document.createDocumentFragment();
     
     collections.forEach(col => {
@@ -314,8 +280,6 @@ function renderDashboard() {
 // ============================================================================
 // --- CARDS: CRUD E MANAGER ---
 // ============================================================================
-
-// Busca Otimizada (Debounce implementado para não gargalar a Main Thread)
 DOM.inputSearchCards.addEventListener('input', debounce((e) => {
     const term = e.target.value.toLowerCase();
     const listItems = document.querySelectorAll('#cards-list li');
@@ -330,7 +294,6 @@ DOM.inputSearchCards.addEventListener('input', debounce((e) => {
     });
 }, 250));
 
-// Adicionar novo Card
 document.getElementById('btn-add-card').addEventListener('click', () => {
     const inputFront = document.getElementById('input-front');
     const inputBack = document.getElementById('input-back');
@@ -348,6 +311,18 @@ document.getElementById('btn-add-card').addEventListener('click', () => {
         renderCardsList();
     }
 });
+
+// Modal: Visualizar Card
+window.openViewCard = function(cardId) {
+    const col = collections.find(c => c.id === activeCollectionId);
+    if (!col) return;
+    const card = col.cards.find(c => c.id === cardId);
+    if (!card) return;
+    
+    document.getElementById('view-card-front').textContent = card.front;
+    document.getElementById('view-card-back').textContent = card.back;
+    document.getElementById('modal-view-card').classList.remove('hidden');
+};
 
 // Modal: Editar Card
 window.openEditCard = function(cardId) {
@@ -383,7 +358,6 @@ document.getElementById('btn-confirm-edit-card').addEventListener('click', () =>
     }
 });
 
-// Excluir Card (Via Window Global handler para inline onclick)
 window.deleteCard = function(cardId) {
     const colIndex = collections.findIndex(c => c.id === activeCollectionId);
     if (colIndex !== -1) {
@@ -393,7 +367,6 @@ window.deleteCard = function(cardId) {
     }
 };
 
-// Abre o Visualizador do Manager
 function openManager(id) {
     activeCollectionId = id;
     const col = collections.find(c => c.id === id);
@@ -410,7 +383,6 @@ function openManager(id) {
     showView('manager');
 }
 
-// Renderização da Lista de Cards com Status de Sessão e Drag & Drop
 function renderCardsList() {
     const col = collections.find(c => c.id === activeCollectionId);
     if (!col) return;
@@ -464,11 +436,17 @@ function renderCardsList() {
             </div>
         `;
         
-        // Listeners para Drag and Drop
+        // Listeners para Desktop
         li.addEventListener('dragstart', handleDragStart);
         li.addEventListener('dragover', handleDragOver);
         li.addEventListener('drop', handleDrop);
         li.addEventListener('dragend', () => li.classList.remove('dragging'));
+
+        // Listeners para Mobile (Touch)
+        li.addEventListener('touchstart', handleTouchStart, { passive: false });
+        li.addEventListener('touchmove', handleTouchMove, { passive: false });
+        li.addEventListener('touchend', handleTouchEnd);
+        li.addEventListener('touchcancel', handleTouchEnd); // Segurança caso o SO interrompa o touch
 
         fragment.appendChild(li);
     });
@@ -476,9 +454,13 @@ function renderCardsList() {
     DOM.cardsList.appendChild(fragment);
 }
 
-// Lógica de Drag and Drop
+// ============================================================================
+// --- ENGINE DE DRAG AND DROP (DESKTOP E MOBILE) ---
+// ============================================================================
 let draggedItemIndex = null;
+let draggedLi = null; // Specífico para o fluxo Mobile
 
+// --- FLUXO DESKTOP (Mouse) ---
 function handleDragStart(e) {
     draggedItemIndex = +e.currentTarget.dataset.index;
     e.currentTarget.classList.add('dragging');
@@ -498,23 +480,88 @@ function handleDrop(e) {
     const dropIndex = +targetItem.dataset.index;
     if (draggedItemIndex === dropIndex || draggedItemIndex === null) return;
 
+    executeReorder(draggedItemIndex, dropIndex);
+    draggedItemIndex = null;
+}
+
+// --- FLUXO MOBILE (Touch/Dedo) ---
+function handleTouchStart(e) {
+    // Só ativa o modo de arrasto se o usuário pressionar o ícone da esquerda
+    if (!e.target.closest('.drag-handle')) return; 
+    
+    draggedItemIndex = +e.currentTarget.dataset.index;
+    draggedLi = e.currentTarget;
+    draggedLi.classList.add('dragging');
+    
+    // A MÁGICA DE UX: Congela a rolagem da página para o card não "fugir" do dedo
+    DOM.body.style.overflow = 'hidden'; 
+}
+
+function handleTouchMove(e) {
+    if (!draggedLi) return;
+    
+    // Trava completamente o pull-to-refresh e scroll nativo enquanto arrasta
+    e.preventDefault(); 
+    
+    const touch = e.touches[0];
+    
+    // Descobre dinamicamente qual elemento do DOM está exatamente abaixo das coordenadas X/Y do dedo
+    const elementUnderFinger = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (!elementUnderFinger) return;
+
+    const targetLi = elementUnderFinger.closest('li');
+    
+    // Lógica de Swap Visual (Dá o feedback em tempo real para o usuário)
+    if (targetLi && targetLi !== draggedLi) {
+        const list = targetLi.parentNode;
+        const targetRect = targetLi.getBoundingClientRect();
+        
+        // Se o dedo passou da metade da altura do card alvo, joga o draggedLi para baixo dele
+        const isBottomHalf = touch.clientY > targetRect.top + (targetRect.height / 2);
+        
+        if (isBottomHalf) {
+            list.insertBefore(draggedLi, targetLi.nextSibling);
+        } else {
+            list.insertBefore(draggedLi, targetLi);
+        }
+    }
+}
+
+function handleTouchEnd(e) {
+    if (!draggedLi) return;
+    
+    DOM.body.style.overflow = ''; // Devolve a rolagem normal ao body
+    draggedLi.classList.remove('dragging');
+    
+    // Pega o estado final visual da lista para recalcular o index
+    const listItems = Array.from(DOM.cardsList.children);
+    const newDropIndex = listItems.indexOf(draggedLi);
+    
+    if (draggedItemIndex !== null && newDropIndex !== -1 && draggedItemIndex !== newDropIndex) {
+        executeReorder(draggedItemIndex, newDropIndex);
+    }
+    
+    draggedLi = null;
+    draggedItemIndex = null;
+}
+
+// --- FUNÇÃO AUXILIAR CENTRALIZADORA ---
+function executeReorder(oldIndex, newIndex) {
     const colIndex = collections.findIndex(c => c.id === activeCollectionId);
     if (colIndex === -1) return;
     
     const cards = collections[colIndex].cards;
-    const [draggedCard] = cards.splice(draggedItemIndex, 1);
-    cards.splice(dropIndex, 0, draggedCard);
+    const [draggedCard] = cards.splice(oldIndex, 1);
+    cards.splice(newIndex, 0, draggedCard);
     
     saveData();
     renderCardsList();
-    draggedItemIndex = null;
 }
+
 
 // ============================================================================
 // --- ENGINE DE ESTUDO & TIMER ---
 // ============================================================================
-
-// Controle de Modo (Sequencial x Aleatório)
 function setStudyMode(mode, btnElement) {
     studyState.mode = mode;
     document.querySelectorAll('.switch-btn').forEach(b => b.classList.remove('active'));
@@ -523,7 +570,6 @@ function setStudyMode(mode, btnElement) {
 document.getElementById('mode-seq').addEventListener('click', (e) => setStudyMode('seq', e.currentTarget));
 document.getElementById('mode-rand').addEventListener('click', (e) => setStudyMode('rand', e.currentTarget));
 
-// Gerenciamento de Timer
 DOM.timerSlider.addEventListener('input', (e) => {
     const val = parseInt(e.target.value, 10);
     cardTimerSeconds = val;
@@ -547,7 +593,6 @@ function startCardTimer() {
     DOM.cardTimerBar.style.width = '100%';
     DOM.cardTimerBar.style.transition = 'none';
     
-    // Força reflow sincronizado para reiniciar CSS Transition
     void DOM.cardTimerBar.offsetWidth;
     
     DOM.cardTimerBar.style.transition = `width ${cardTimerSeconds}s linear`;
@@ -565,7 +610,6 @@ function startCardTimer() {
     }, 1000);
 }
 
-// Controle do Jogo (Iniciar/Reset/Continuar)
 document.getElementById('btn-start-study').addEventListener('click', () => {
     const col = collections.find(c => c.id === activeCollectionId);
     if (!col || col.cards.length === 0) return;
@@ -618,7 +662,6 @@ document.getElementById('btn-reset-study').addEventListener('click', () => {
     renderStudyCard();
 });
 
-// Mecânica do Card
 function renderStudyCard() {
     const card = studyState.deck[studyState.currentIndex];
     if (!card) return; 
@@ -671,17 +714,16 @@ function handleJudgement(isCorrect) {
 document.getElementById('btn-correct').addEventListener('click', () => handleJudgement(true));
 document.getElementById('btn-wrong').addEventListener('click', () => handleJudgement(false));
 
+
 // ============================================================================
 // --- PERFORMANCE E RESULTADOS ---
 // ============================================================================
-
 function showResults() {
     localStorage.removeItem(`memoryApp_session_${activeCollectionId}`);
     
     const listCorrect = document.getElementById('list-correct');
     const listWrong = document.getElementById('list-wrong');
     
-    // Otimização de Performance: Substituição de += iterativo por String Map + Join
     listCorrect.innerHTML = studyState.correct.map(c => `<li>${c.front}</li>`).join('');
     listWrong.innerHTML = studyState.wrong.map(c => `<li>${c.front}</li>`).join('');
     
@@ -742,7 +784,6 @@ function renderPerformance() {
     setupSwipeToDelete();
 }
 
-// Modal de Detalhes da Performance e Reforço
 window.openPerformanceDetails = function(perfId) {
     currentPerfIdForModal = perfId;
     const perf = performanceHistory.find(p => p.id === perfId);
@@ -752,7 +793,6 @@ window.openPerformanceDetails = function(perfId) {
     const modalListWrong = document.getElementById('modal-list-wrong');
     const btnReforco = document.getElementById('btn-create-reinforcement');
 
-    // Mapeamento otimizado de Arrays para a DOM do modal
     modalListCorrect.innerHTML = perf.correctCards && perf.correctCards.length > 0
         ? perf.correctCards.map(c => `<li>${c.front}</li>`).join('')
         : `<li style="background: transparent; border: none; color: var(--text-muted); padding: 0;">${perf.correct > 0 ? 'Detalhes não salvos em versões anteriores.' : 'Nenhum acerto nesta sessão.'}</li>`;
@@ -761,7 +801,6 @@ window.openPerformanceDetails = function(perfId) {
         ? perf.wrongCards.map(c => `<li>${c.front}</li>`).join('')
         : `<li style="background: transparent; border: none; color: var(--text-muted); padding: 0;">${(perf.total - perf.correct) > 0 && !perf.wrongCards ? 'Detalhes não salvos em versões anteriores.' : 'Nenhum erro. Perfeito!'}</li>`;
 
-    // Controle visual do botão de reforço
     btnReforco.style.display = (perf.wrongCards && perf.wrongCards.length > 0) ? 'inline-flex' : 'none';
     DOM.modalPerfDetails.classList.remove('hidden');
 };
@@ -786,14 +825,12 @@ document.getElementById('btn-create-reinforcement').addEventListener('click', ()
     document.querySelector('.nav-item[data-target="view-dashboard"]').click();
 });
 
-// Lógica de Deletar Performance
 window.deletePerformance = function(id) {
     performanceHistory = performanceHistory.filter(p => p.id !== id);
     saveData();
     renderPerformance();
 };
 
-// Lógica Visual do Swipe para Deletar (Touch/Mouse)
 function setupSwipeToDelete() {
     const swipeContents = document.querySelectorAll('.swipe-content');
     
@@ -834,7 +871,6 @@ function setupSwipeToDelete() {
 // ============================================================================
 // --- I/O: EXPORTAÇÃO E IMPORTAÇÃO DE DADOS (JSON) ---
 // ============================================================================
-
 function createDownload(filename, data) {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
     const a = document.createElement('a'); 
@@ -855,7 +891,6 @@ window.exportCollection = function(id, e) {
     if(col) createDownload(`${col.name.replace(/\s+/g, '_')}.json`, col);
 };
 
-// Loader de JSON genérico via FileReader
 function handleFileImport(event, onSuccess) {
     const file = event.target.files[0];
     if (!file) return;
@@ -871,10 +906,9 @@ function handleFileImport(event, onSuccess) {
         }
     };
     reader.readAsText(file);
-    event.target.value = ''; // Reseta input
+    event.target.value = ''; 
 }
 
-// Input: Restaurar Backup Completo
 document.getElementById('file-import').addEventListener('change', (e) => {
     handleFileImport(e, (imp) => {
         if (Array.isArray(imp)) {
@@ -895,7 +929,6 @@ document.getElementById('file-import').addEventListener('change', (e) => {
     });
 });
 
-// Input: Mesclar Cards numa Coleção Ativa
 document.getElementById('file-import-append').addEventListener('change', (e) => {
     if (!activeCollectionId) return;
     
