@@ -980,6 +980,33 @@ document.getElementById('file-import-append').addEventListener('change', (e) => 
 });
 
 // ============================================================================
+// --- PWA: PROMPT DE INSTALAÇÃO IOS ---
+// ============================================================================
+const isIos = () => {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /iphone|ipad|ipod/.test(userAgent);
+};
+
+// Verifica se o app já está rodando em modo standalone (tela cheia/instalado)
+const isInStandaloneMode = () => ('standalone' in window.navigator) && (window.navigator.standalone);
+
+// Se for iOS, não estiver instalado, e o usuário não tiver fechado o prompt antes
+if (isIos() && !isInStandaloneMode() && !localStorage.getItem('memoryApp_iosPromptDismissed')) {
+    const iosPrompt = document.getElementById('ios-install-prompt');
+    
+    // Mostra o prompt após 2 segundos para não ser agressivo logo de cara
+    setTimeout(() => {
+        iosPrompt.classList.remove('hidden');
+    }, 2000);
+    
+    // Lógica para fechar e não mostrar novamente
+    iosPrompt.querySelector('.close-prompt').addEventListener('click', () => {
+        iosPrompt.classList.add('hidden');
+        localStorage.setItem('memoryApp_iosPromptDismissed', 'true'); // Salva no cache que ele já recusou
+    });
+}
+
+// ============================================================================
 // --- BOOT (MÁQUINA LIGADA) ---
 // ============================================================================
 renderDashboard();

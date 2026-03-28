@@ -6,6 +6,14 @@
     <title>Memory App - JONI</title>
     <link rel="icon" type="image/svg+xml" href="logo.svg">
     
+    <meta name="theme-color" content="#10b981">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="JONI Memory">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <link rel="manifest" href="manifest.json">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -421,6 +429,18 @@
             <div class="modal-actions">
                 <button class="btn-primary close-modal" style="width: 100%;">Fechar</button>
             </div>
+        </div>
+    </div>
+
+    <div id="ios-install-prompt" class="modal-overlay hidden" style="align-items: flex-end; padding-bottom: 32px; z-index: 9999;">
+        <div class="modal-content panel" style="margin: 0 16px; padding: 24px; text-align: center; position: relative; max-width: 400px;">
+            <button class="btn-icon close-prompt" style="position: absolute; top: 12px; right: 12px; border: none; background: transparent;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <h3 style="margin-bottom: 12px; font-size: 1.1rem;">Instale o JONI Memory</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">
+                Para usar como um aplicativo, toque no ícone <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin: 0 4px; color: var(--accent);"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg> abaixo e depois escolha <strong>"Adicionar à Tela de Início"</strong>.
+            </p>
         </div>
     </div>
 

@@ -1,0 +1,16 @@
+{
+  "name": "JONI Memory",
+  "short_name": "JONI",
+  "description": "Sistema de repetição espaçada e flashcards.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f4f5",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
